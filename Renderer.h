@@ -7,7 +7,6 @@ class Renderer {
 	GLuint vertexBufferID;
 	GLuint programID;
 
-
 public:
 	Renderer();
 	~Renderer();
