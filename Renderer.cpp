@@ -24,9 +24,13 @@ void Renderer::Initialize() {
 	// [TODO] 1) create the data array (stored in RAM)
 	GLfloat verts[] =
 	{
-		+0.0f, +1.0f, +0.0f,
-		-1.0f, -1.0f, +0.0f,
-		+1.0f, -1.0f, +0.0f
+		+0.0f, +0.0f, +0.0f,  // 0
+		+0.5f, +0.33f, +0.0f, // 1
+		+0.0f, +0.59f, +0.0f,  // 2
+		-0.5f, +0.33f, +0.0f, // 3
+		-0.5f, -0.33f, +0.0f, // 4
+		+0.5f, -0.33f, +0.0f  // 5
+
 	};
 
 
@@ -42,6 +46,18 @@ void Renderer::Initialize() {
 
 	// [TODO] 5) allocate the mem in the GPU and copy the data from the RAM to the GPU,
 	glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+
+	GLushort indices[] = {
+		0, 1, 2,
+		0, 2, 3,
+		0, 3, 4,
+		0, 4, 5,
+		0, 1, 5
+	};
+
+	glGenBuffers(1, &vertexBufferID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexBufferID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	// Create and compile our GLSL program from the shaders
 	programID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
@@ -63,7 +79,7 @@ void Renderer::Draw() {
 
 	// [TODO] 8) Draw the triangle !
 	// note that glDrawArrays, uses the currently bound BO in GL_ARRAY_BUFFER.
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawElements(GL_TRIANGLES, 15, GL_UNSIGNED_SHORT, 0);
 
 	// [TODO] 9) Disable the previously enabled attribute
 	glDisableVertexAttribArray(0);
