@@ -1,0 +1,13 @@
+#version 330 core
+
+
+// Ouput data
+out vec3 color;
+in vec3 theColor; // color received from the vertex shader (should be naming the same)
+
+void main()
+{
+
+	color = theColor;
+
+}
